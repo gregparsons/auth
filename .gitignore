@@ -1,0 +1,9 @@
+# .gitignore
+.env
+/target
+.DS_Store
+all.sh
+run.sh
+configuration.yaml
+/.idea
+Cargo.lock

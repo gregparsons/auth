@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "frontend_ui",
+#    "data_collection"
+]
