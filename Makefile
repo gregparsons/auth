@@ -1,5 +1,9 @@
+web:
+	cargo run --release -- frontend_ui
+webdev:
+	cargo run -- frontend_ui
 prod:
-	./trader/all.sh
+	./frontend_ui/all.sh
 dev:
 	cargo run -p trader
 maintenance:

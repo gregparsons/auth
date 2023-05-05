@@ -9,7 +9,7 @@ path= "src/frontend_lib/mod.rs"
 
 [[bin]]
 path="src/main.rs"
-name="alpacol"
+name="trade_ui"
 
 [dependencies]
 dotenvy = "0.15.6"

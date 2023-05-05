@@ -2,5 +2,5 @@
 
 members = [
     "frontend_ui",
-#    "data_collection"
+    "data_collect",
 ]

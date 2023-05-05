@@ -4,7 +4,8 @@
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use tracing_subscriber::{fmt, EnvFilter};
-use frontend::market;
+use backend_lib::backend::Backend;
+
 
 /// load the .env file and initialize logging
 /// todo move to a "common" lib
@@ -35,6 +36,6 @@ fn main() {
         .expect("Tokio runtime didn't start");
 
     tokio_runtime.block_on(async {
-        market::Market::start().await;
+        Backend::start().await;
     });
 }

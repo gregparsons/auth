@@ -1,4 +1,4 @@
-//! market.rs
+//! backend
 
 /*
 
@@ -13,26 +13,14 @@
 
 */
 
-use crate::configuration::get_yaml_configuration;
-use crate::frontend::routes;
+
 use std::str::FromStr;
 use crate::websocket_service::AlpacaStream;
 
-pub struct Market {}
+pub struct Backend {}
 
-impl Market {
+impl Backend {
     pub async fn start() {
-
-        // TODO: placeholder for future config file capability
-        let settings = get_yaml_configuration().expect("no configuration.yaml");
-        let address = format!("127.0.0.1:{}", settings.database.port);
-        tracing::debug!("[main] address from config: {}", &address);
-
-        // start the web server
-        routes::run(&settings).await;
-
-
-
 
         // Postgres Database
         // Start the long-running database thread;
@@ -87,10 +75,6 @@ impl Market {
         if alpaca_rest_on {
             tracing::debug!("[Market::start] starting alpaca web client");
 
-            // let stocks = STOCK_LIST
-            //     .map(|stock| stock.to_string())
-            //     .to_vec();
-
             crate::web_client_service::run(/*stocks, tx_db, tx_trader*/).await;
 
             tracing::debug!("[Market::start] alpaca web client finished");
@@ -101,9 +85,6 @@ impl Market {
         // infinite loop to keep child threads alive
         loop {
             std::thread::sleep(std::time::Duration::from_secs(5));
-
-            // TODO: perhaps check if the threads are alive and restart them; manage the other parts basically
-            // TODO: check environment variables for signals from the outside to do things like start/stop websocket, start/stop trading
         }
     }
 }

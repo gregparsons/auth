@@ -1,9 +1,7 @@
 //! frontend_ui
 
-pub mod configuration;
-pub mod frontend;
+pub mod backend;
 pub mod db;
-pub mod market;
 pub mod models;
 pub mod trader;
 pub mod web_client_service;

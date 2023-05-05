@@ -1,4 +1,4 @@
-//! frontend_ui/frontend_lib
+//! frontend_ui/backend_lib
 
 pub mod web_server;
 pub mod signup;

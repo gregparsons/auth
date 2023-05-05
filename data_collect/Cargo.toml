@@ -1,15 +1,15 @@
 [package]
-name = "frontend"
+name = "backend_lib"
 version = "0.2.0"
 authors = ["gp <github@swimr.com>"]
 edition = "2021"
 
 [lib]
-path= "src/frontend_lib/mod.rs"
+path= "src/backend_lib/mod.rs"
 
 [[bin]]
 path="src/main.rs"
-name="alpacol"
+name="trade_data"
 
 [dependencies]
 dotenvy = "0.15.6"
