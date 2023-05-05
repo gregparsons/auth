@@ -2,5 +2,5 @@
 
 members = [
     "frontend_ui",
-    "data_collect",
+    "backend_data",
 ]
