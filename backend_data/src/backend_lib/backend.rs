@@ -29,10 +29,6 @@ impl Backend {
         let tx_db = crate::db::start().await;
         tracing::debug!("[Market::start] db start() complete");
 
-        // Trader (Analysis) Service
-        let tx_trader = crate::trader::start();
-        tracing::info!("[Market::start] frontend_ui start result: {:?}", tx_trader);
-
         // Websocket (Incoming) Data Service
         let alpaca_ws_on = bool::from_str(std::env::var("ALPACA_WEBSOCKET_ON").unwrap_or_else(|_| "false".to_owned()).as_str()).unwrap_or(false);
         tracing::info!("ALPACA_WEBSOCKET_ON is: {}", &alpaca_ws_on);
@@ -40,12 +36,10 @@ impl Backend {
         if alpaca_ws_on {
             // spawn long-running text thread
             let tx_db_ws = tx_db.clone();
-            let tx_trader_ws = tx_trader.clone();
             tracing::debug!("Starting text websocket service in new thread...");
             let _ = std::thread::spawn(move || {
-                crate::websocket_service::Ws::run(tx_db_ws, tx_trader_ws, &AlpacaStream::TextData);
+                crate::websocket_service::Ws::run(tx_db_ws, &AlpacaStream::TextData);
             });
-
 
             // spawn binary websocket
             // let tx_db_ws2 = tx_db.clone();
@@ -54,8 +48,6 @@ impl Backend {
             // let _ = std::thread::spawn(move || {
             //     crate::websocket_service::Ws::run(tx_db_ws2, tx_trader_ws2, &AlpacaStream::BinaryUpdates);
             // });
-
-
 
         // if the websocket thread dies, the program finishes.
         // thread_websocket.join();

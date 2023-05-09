@@ -3,4 +3,5 @@
 members = [
     "frontend_ui",
     "backend_data",
+    "monitor"
 ]
