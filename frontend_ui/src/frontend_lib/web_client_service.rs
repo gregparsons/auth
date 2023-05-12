@@ -4,7 +4,7 @@
 
 use chrono::{Utc};
 use crate::alpaca_activity::get_activity_api;
-use crate::common::{MARKET_EARLY_OPEN_TIME, MARKET_LATE_CLOSE_TIME};
+use crate::common::{MARKET_OPEN, MARKET_CLOSE};
 
 
 use sqlx::{PgPool, Pool, Postgres};
@@ -51,8 +51,8 @@ pub async fn run(/*stocks: Vec<String>, tx_database: Sender<DbMsg>, tx_trader: S
         // let alpaca_id = std::env::var("ALPACA_API_ID").expect("ALPACA_API_ID");
         // let alpaca_secret = std::env::var("ALPACA_API_SECRET").expect("ALPACA_API_SECRET");
         let alpaca_poll_rate_ms: u64 = std::env::var("API_INTERVAL_MILLIS").unwrap_or_else(|_| "5000".to_string()).parse().unwrap_or(5000);
-        let time_open_ny = MARKET_EARLY_OPEN_TIME.clone();
-        let time_close_ny = MARKET_LATE_CLOSE_TIME.clone();
+        let time_open_ny = MARKET_OPEN.clone();
+        let time_close_ny = MARKET_CLOSE.clone();
 
 
         loop {

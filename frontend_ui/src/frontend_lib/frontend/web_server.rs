@@ -8,7 +8,9 @@ use actix_session::SessionMiddleware;
 use actix_session::storage::CookieSessionStore;
 use crate::frontend::signup::{get_signup, post_signup};
 use crate::frontend::login::{get_login, get_logout, post_login};
-use crate::frontend::metrics::{get_avg, get_chart, get_profit, get_account};
+use crate::frontend::metrics::{get_avg, get_chart};
+use crate::frontend::account::get_account;
+use crate::frontend::profit::get_profit;
 use crate::frontend::utils::*;
 use crate::settings::STATIC_FILE_DIR;
 

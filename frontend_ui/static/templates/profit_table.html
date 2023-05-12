@@ -19,15 +19,37 @@
 </style>
 <br>
 <table>
-    <tr><td>Symbol</td><td>Qty</td><td>Profit</td></tr>
+    <tr>
+        <td>symbol</td>
+        <td>profit_to_date</td>
+        <td>activity_count</td>
+        <td>count_today</td>
+        <td>count_yesterday</td>
+        <td>price_avg</td>
+        <td>volume</td>
+        <td>profit_vs_activities</td>
+        <td>profit_vs_price</td>
+        <td>profit_vs_volume</td>
+        <td>trade_latest</td>
+        <td>activity_latest</td>
+    <tr>
     {{#each data}}
     <tr>
         <td>{{this.symbol}}</td>
-        <td>{{this.qty}}</td>
-        <td>{{this.subtotal}}</td>
+        <td>{{this.profit_to_date}}</td>
+        <td>{{this.activity_count}}</td>
+        <td>{{this.count_today}}</td>
+        <td>{{this.count_yesterday}}</td>
+        <td>{{this.price_avg}}</td>
+        <td>{{this.profit_vs_activities}}</td>
+        <td>{{this.profit_vs_price}}</td>
+        <td>{{this.profit_vs_volume}}</td>
+        <td>{{this.profit_vs_volume}}</td>
+        <td>{{this.trade_latest}}</td>
+        <td>{{this.activity_latest}}</td>
     </tr>
     {{/each}}
-    <tr><td>Total</td><td></td><td>{{profit_total.profit}}</td></tr>
+    <tr><td>Total</td><td>{{profit_total.profit}}</td></tr>
 </table>
 {{/inline}}
 {{> (lookup this "parent")}}

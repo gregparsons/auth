@@ -2,6 +2,7 @@
 //!
 //! Restful Alpaca Poller
 
+
 use chrono::{Utc};
 use crate::alpaca_activity::get_activity_api;
 use crate::common::{MARKET_EARLY_OPEN_TIME, MARKET_LATE_CLOSE_TIME};
@@ -61,6 +62,7 @@ pub async fn run(/*stocks: Vec<String>, tx_database: Sender<DbMsg>, tx_trader: S
 
             // Call the API if the market is open in NYC
             let time_current_ny = Utc::now().with_timezone(&chrono_tz::America::New_York).time();
+
             if time_current_ny >= time_open_ny && time_current_ny <= time_close_ny {
                 tracing::debug!("[rest_service:start] NY time: {:?}, open: {:?}, close: {:?}", &time_current_ny, &time_open_ny, &time_close_ny);
                 // Don't need this. Using websocket exclusively.

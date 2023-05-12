@@ -1,7 +1,4 @@
 //! settings.rs
-
-pub const STATIC_FILE_DIR:&'static str = "./frontend_ui/static/templates";
-
 pub const STOCK_LIST_COUNT:usize = 30;
 pub static STOCK_LIST:[&'static str; STOCK_LIST_COUNT] =
     [
@@ -49,8 +46,5 @@ pub static STOCK_LIST:[&'static str; STOCK_LIST_COUNT] =
         "w",
         "gm",
         "sq",
-
-
-
 
     ];

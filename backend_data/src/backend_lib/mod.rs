@@ -1,5 +1,7 @@
 //! frontend_ui
 
+extern crate core;
+
 pub mod backend;
 pub mod db;
 pub mod models;

@@ -1,4 +1,8 @@
-use chrono::{NaiveTime};
+//! frontend_lib/common/mod.rs
+//!
+//!
+//!
+use chrono::NaiveTime;
 use once_cell::sync::Lazy;
 
 
@@ -17,12 +21,15 @@ pub mod trade_struct;
 // https://alpaca.markets/learn/investing-basics/what-is-extended-hours-trading/
 
 // pub static MARKET_EARLY_OPEN_TIME:Lazy<NaiveTime> = Lazy::new(||{ NaiveTime::from_hms_opt(0, 0, 0).unwrap() }); // 4am Eastern
-pub static MARKET_EARLY_OPEN_TIME:Lazy<NaiveTime> = Lazy::new(||{ NaiveTime::from_hms_opt(9, 30, 0).unwrap() }); // 4am Eastern
+pub static MARKET_OPEN:Lazy<NaiveTime> = Lazy::new(||{ NaiveTime::from_hms_opt(9, 30, 0).unwrap() }); // 4am Eastern
+// pub static MARKET_EARLY_OPEN_TIME:Lazy<Date> = Lazy::new(||{ Date::with_hms(9, 30, 0).unwrap() }); // 4am Eastern
+
+
 
 // pub static MARKET_EARLY_CLOSE_TIME:Option<NaiveTime> = NaiveTime::from_hms_opt(9, 30, 0);
 // pub static MARKET_NORMAL_OPEN_TIME:Option<NaiveTime> = NaiveTime::from_hms_opt(9, 30, 0);
 // pub static MARKET_NORMAL_CLOSE_TIME:Option<NaiveTime> = NaiveTime::from_hms_opt(16, 0, 0);
 // pub static MARKET_LATE_OPEN_TIME:Option<NaiveTime> = NaiveTime::from_hms_opt(16, 0, 0);
 
-pub static MARKET_LATE_CLOSE_TIME:Lazy<NaiveTime> = Lazy::new(||{ NaiveTime::from_hms_opt(16, 0, 0).unwrap() }); // 8pm
-// pub static MARKET_LATE_CLOSE_TIME:Lazy<NaiveTime> = Lazy::new(||{ NaiveTime::from_hms_opt(23, 59, 59).unwrap() }); // 8pm
+// pub static MARKET_LATE_CLOSE_TIME:Lazy<Date> = Lazy::new(||{ Date::with_hms(16, 0, 0).unwrap() }); // 8pm
+pub static MARKET_CLOSE:Lazy<NaiveTime> = Lazy::new(||{ NaiveTime::from_hms_opt(16, 0, 0).unwrap() }); // 8pm
