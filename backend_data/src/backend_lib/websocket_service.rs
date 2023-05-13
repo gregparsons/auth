@@ -23,7 +23,7 @@ use tungstenite::client::IntoClientRequest;
 use tungstenite::{Message};
 use crate::common::common_structs::{WsListenMessage, WsListenMessageData, MinuteBar, WsAuthenticate};
 use crate::models::{AlpWsTrade};
-use crate::settings::{STOCK_LIST, STOCK_LIST_COUNT};
+// use crate::settings::{STOCK_LIST, STOCK_LIST_COUNT};
 
 #[derive(PartialEq)]
 pub enum AlpacaStream{
@@ -31,21 +31,23 @@ pub enum AlpacaStream{
     BinaryUpdates,
 }
 
-fn stock_list_to_uppercase(lower_stock:[&'static str; STOCK_LIST_COUNT])-> Vec<String>{
-    lower_stock.map(|x| x.to_uppercase() ).to_vec()
+// fn stock_list_to_uppercase(lower_stock:[&'static str; STOCK_LIST_COUNT])-> Vec<String>{
+//     lower_stock.map(|x| x.to_uppercase() ).to_vec()
+// }
+
+fn stock_list_to_uppercase(lower_stock:&Vec<String>)-> Vec<String>{
+    lower_stock.iter().map(|x| x.to_uppercase() ).collect()
 }
 
 pub struct Ws;
 
 impl Ws {
-    pub fn run(tx_db: Sender<DbMsg>, stream_type:&AlpacaStream) {
+    pub fn run(tx_db: Sender<DbMsg>, stream_type:&AlpacaStream, symbols:Vec<String>) {
         tracing::debug!("[run]");
-        crate::websocket_service::Ws::ws_connect(tx_db, stream_type);
+        Ws::ws_connect(tx_db, stream_type, symbols);
     }
 
-
-
-    fn ws_connect(tx_db: Sender<DbMsg>, stream_type:&AlpacaStream) {
+    fn ws_connect(tx_db: Sender<DbMsg>, stream_type:&AlpacaStream, symbols:Vec<String>) {
 
         let ws_url = match stream_type{
             AlpacaStream::TextData => std::env::var("ALPACA_WS_URL_TEXT").expect("ALPACA_WS_URL_TEXT not found"),
@@ -151,9 +153,9 @@ impl Ws {
                                                                     // https://alpaca.markets/docs/api-references/market-data-api/stock-pricing-data/realtime/#subscribe
                                                                     let json = json!({
                                                                         "action": "subscribe",
-                                                                        "trades":  stock_list_to_uppercase(STOCK_LIST),
+                                                                        "trades":  stock_list_to_uppercase(&symbols),
                                                                         // "quotes": STOCK_LIST_CAPS,
-                                                                        "bars": stock_list_to_uppercase(STOCK_LIST),
+                                                                        "bars": stock_list_to_uppercase(&symbols),
                                                                     });
                                                                     tracing::debug!("[ws_connect] sending subscription request...\n{}", &json);
                                                                     let result = ws.write_message(Message::Text(json.to_string()));

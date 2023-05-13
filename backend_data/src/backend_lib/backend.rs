@@ -15,12 +15,16 @@
 
 
 use std::str::FromStr;
+use crate::common::sqlx_pool::create_sqlx_pg_pool;
+use crate::common::symbol_list::get_symbols;
 use crate::websocket_service::AlpacaStream;
 
 pub struct Backend {}
 
 impl Backend {
     pub async fn start() {
+
+        let pool = create_sqlx_pg_pool().await;
 
         // Postgres Database
         // Start the long-running database thread;
@@ -37,9 +41,18 @@ impl Backend {
             // spawn long-running text thread
             let tx_db_ws = tx_db.clone();
             tracing::debug!("Starting text websocket service in new thread...");
-            let _ = std::thread::spawn(move || {
-                crate::websocket_service::Ws::run(tx_db_ws, &AlpacaStream::TextData);
-            });
+
+            let ws_pool = pool.clone();
+            match get_symbols(&ws_pool).await{
+                Ok(symbols) => {
+                    let _ = std::thread::spawn(move || {
+                        crate::websocket_service::Ws::run(tx_db_ws, &AlpacaStream::TextData, symbols);
+                    });
+                },
+                Err(e) => {
+                    tracing::debug!("[start] error getting symbols for websocket: {:?}", &e);
+                }
+            }
 
             // spawn binary websocket
             // let tx_db_ws2 = tx_db.clone();

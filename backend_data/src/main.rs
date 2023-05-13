@@ -16,7 +16,6 @@ fn init(dot_env_path: &str) {
         Ok(_) => tracing::debug!(".env found"),
         _ => tracing::debug!(".env not found"),
     }
-
     tracing_subscriber::registry().with(fmt::layer()).with(EnvFilter::from_default_env()).init();
 }
 
@@ -36,6 +35,9 @@ fn main() {
         .expect("Tokio runtime didn't start");
 
     tokio_runtime.block_on(async {
+
+
+
         Backend::start().await;
     });
 }
