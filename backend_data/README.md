@@ -12,11 +12,8 @@ cargo sqlx prepare -- --lib
 
 ## TODO
 - remove chrono per https://github.com/chronotope/chrono/issues/602 and cargo audit
-- remove ureq for reqwest
-- add (many) tests
-- bug: not resilient to local power/internet outage?
-- load the stock list from external config (not hard-coded)
-- add all the pre-existing db structure to sqlx migrations
+- not resilient to local power/internet outage?
+- 406 error occurs when too many connections, close websocket and attempt reconnect after some delay
 
 ## sqlx
 sqlx migrate add create_user_table  

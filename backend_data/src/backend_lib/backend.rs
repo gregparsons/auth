@@ -15,38 +15,39 @@
 
 
 use std::str::FromStr;
-use crate::common::sqlx_pool::create_sqlx_pg_pool;
+use sqlx::PgPool;
+use crate::common::settings::Settings;
 use crate::common::symbol_list::get_symbols;
 use crate::websocket_service::AlpacaStream;
 
 pub struct Backend {}
 
 impl Backend {
-    pub async fn start() {
+    pub async fn start(pool:PgPool, settings:&Settings) {
 
-        let pool = create_sqlx_pg_pool().await;
 
+        // old: phase this out for separate microservice and pull data directly from message broker
         // Postgres Database
         // Start the long-running database thread;
         // get a sender from the Database Service.
         // tx = "transmitter"
         let tx_db = crate::db::start().await;
         tracing::debug!("[Market::start] db start() complete");
-
         // Websocket (Incoming) Data Service
         let alpaca_ws_on = bool::from_str(std::env::var("ALPACA_WEBSOCKET_ON").unwrap_or_else(|_| "false".to_owned()).as_str()).unwrap_or(false);
         tracing::info!("ALPACA_WEBSOCKET_ON is: {}", &alpaca_ws_on);
-
         if alpaca_ws_on {
             // spawn long-running text thread
             let tx_db_ws = tx_db.clone();
             tracing::debug!("Starting text websocket service in new thread...");
-
             let ws_pool = pool.clone();
+
+            let settings2 = (*settings).clone();
             match get_symbols(&ws_pool).await{
                 Ok(symbols) => {
                     let _ = std::thread::spawn(move || {
-                        crate::websocket_service::Ws::run(tx_db_ws, &AlpacaStream::TextData, symbols);
+
+                        crate::websocket_service::Ws::run(tx_db_ws, &AlpacaStream::TextData, symbols, settings2);
                     });
                 },
                 Err(e) => {

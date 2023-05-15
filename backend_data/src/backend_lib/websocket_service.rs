@@ -22,6 +22,7 @@ use serde_json::{json, Value};
 use tungstenite::client::IntoClientRequest;
 use tungstenite::{Message};
 use crate::common::common_structs::{WsListenMessage, WsListenMessageData, MinuteBar, WsAuthenticate};
+use crate::common::settings::Settings;
 use crate::models::{AlpWsTrade};
 // use crate::settings::{STOCK_LIST, STOCK_LIST_COUNT};
 
@@ -42,12 +43,12 @@ fn stock_list_to_uppercase(lower_stock:&Vec<String>)-> Vec<String>{
 pub struct Ws;
 
 impl Ws {
-    pub fn run(tx_db: Sender<DbMsg>, stream_type:&AlpacaStream, symbols:Vec<String>) {
+    pub fn run(tx_db: Sender<DbMsg>, stream_type:&AlpacaStream, symbols:Vec<String>, settings:Settings) {
         tracing::debug!("[run]");
-        Ws::ws_connect(tx_db, stream_type, symbols);
+        Ws::ws_connect(tx_db, stream_type, symbols, &settings);
     }
 
-    fn ws_connect(tx_db: Sender<DbMsg>, stream_type:&AlpacaStream, symbols:Vec<String>) {
+    fn ws_connect(tx_db: Sender<DbMsg>, stream_type:&AlpacaStream, symbols:Vec<String>, settings:&Settings) {
 
         let ws_url = match stream_type{
             AlpacaStream::TextData => std::env::var("ALPACA_WS_URL_TEXT").expect("ALPACA_WS_URL_TEXT not found"),
@@ -68,7 +69,7 @@ impl Ws {
                     tracing::debug!("[ws_connect] successful websocket connection; response: {:?}", _response);
 
                     // todo: check if websocket connected; it won't if there's one already connected elsewhere; Alpaca sends an error
-                    let auth_json = generate_ws_authentication_message();
+                    let auth_json = generate_ws_authentication_message(&settings);
 
                     // send authentication message
                     ws.write_message(Message::Text(auth_json)).unwrap();
@@ -264,10 +265,12 @@ impl Ws {
 ///                    >  {"action": "listen", "data": {"streams": ["T.SPY"]}}
 ///                    < {"stream":"listening","data":{"streams":["T.SPY"]}}
 ///
-fn generate_ws_authentication_message() -> String {
+fn generate_ws_authentication_message(settings:&Settings) -> String {
     // {"action": "authenticate","data": {"key_id": "???", "secret_key": "???"}}
-    let api_key = std::env::var("ALPACA_API_ID").expect("ALPACA_API_ID");
-    let api_secret = std::env::var("ALPACA_API_SECRET").expect("ALPACA_API_SECRET");
+
+    // TODO: add database setting "use_paper_or_live_key"
+    let api_key = settings.alpaca_paper_id.clone();                     // std::env::var("ALPACA_API_ID").expect("ALPACA_API_ID");
+    let api_secret = settings.alpaca_paper_secret.clone();              //std::env::var("ALPACA_API_SECRET").expect("ALPACA_API_SECRET");
 
     let json_obj = WsAuthenticate {
         action: "auth".to_owned(),

@@ -10,5 +10,4 @@ pub mod websocket_service;
 pub mod common;
 pub mod alpaca_activity;
 pub mod account;
-pub mod settings;
 

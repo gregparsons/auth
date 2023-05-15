@@ -16,7 +16,9 @@ use reqwest::header::HeaderMap;
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
 use sqlx::postgres::PgQueryResult;
+use crate::common::settings::Settings;
 use crate::common::trade_struct::TradeSide;
+
 
 /// load all the most recent activities
 /// 1. get the most recent activity in the database
@@ -127,34 +129,23 @@ impl fmt::Display for ActivitySubtype {
 ///
 /// https://alpaca.markets/docs/api-references/trading-api/account-activities/#properties
 ///
-pub async fn get_activity_api(pool: PgPool) ->Result<(), reqwest::Error> {
-
+pub async fn get_activity_api(pool: PgPool, settings:Settings) ->Result<(), reqwest::Error> {
     // 1. database call to get most recent activity
-
-
     // 2. web api call to get all activities since most recent stored locally
 
     let mut headers = HeaderMap::new();
-    let api_key_id = std::env::var("ALPACA_API_ID").expect("ALPACA_API_ID environment variable not found");
-    let api_secret = std::env::var("ALPACA_API_SECRET").expect("alpaca_secret environment variable not found");
-    headers.insert("APCA-API-KEY-ID", api_key_id.parse().unwrap());
+    // let api_key_id = std::env::var("ALPACA_API_ID").expect("ALPACA_API_ID environment variable not found");
+    // let api_secret = std::env::var("ALPACA_API_SECRET").expect("alpaca_secret environment variable not found");
+    let api_key = settings.alpaca_paper_id.clone();
+    let api_secret = settings.alpaca_paper_secret.clone();
+    headers.insert("APCA-API-KEY-ID", api_key.parse().unwrap());
     headers.insert("APCA-API-SECRET-KEY", api_secret.parse().unwrap());
-
-    // TODO: filter by date, etc
-    // TODO: move URL to environment so can be changed when going to live API
     let url = format!("https://paper-api.alpaca.markets/v2/account/activities/FILL");
 
     tracing::debug!("[load_fill_activities] calling API: {}", &url);
 
     // get a single order
     let client = reqwest::Client::new();
-
-    // let activity_result = client.get(url)
-    //     .headers(headers)
-    //     .send()
-    //     .await?
-    //     .json::<Vec<Activity>>()
-    //     .await;
 
     let http_result = client.get(url)
         .headers(headers)
@@ -167,7 +158,6 @@ pub async fn get_activity_api(pool: PgPool) ->Result<(), reqwest::Error> {
             // i want to see what's in there dangit. json() gives away ownership and I can't get it back.
             let json_text = &resp.text().await.unwrap();
             tracing::debug!("json: {}", &json_text);
-
 
             match serde_json::from_str::<Vec<Activity>>(&json_text) {
                 Ok(activities) => {

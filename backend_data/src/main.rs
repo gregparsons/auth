@@ -5,6 +5,8 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use tracing_subscriber::{fmt, EnvFilter};
 use backend_lib::backend::Backend;
+use backend_lib::common::settings::Settings;
+use backend_lib::common::sqlx_pool::create_sqlx_pg_pool;
 
 
 /// load the .env file and initialize logging
@@ -36,8 +38,14 @@ fn main() {
 
     tokio_runtime.block_on(async {
 
-
-
-        Backend::start().await;
+        let pool = create_sqlx_pg_pool().await;
+        match Settings::load(&pool).await{
+            Ok(settings) =>{
+                Backend::start(pool, &settings).await;
+            },
+            Err(e) => {
+                tracing::debug!("[main] could not load settings: {:?}", &e);
+            }
+        }
     });
 }

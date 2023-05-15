@@ -12,7 +12,9 @@ use crate::frontend::metrics::{get_avg, get_chart};
 use crate::frontend::account::get_account;
 use crate::frontend::profit::get_profit;
 use crate::frontend::utils::*;
-use crate::settings::STATIC_FILE_DIR;
+// use crate::settings::STATIC_FILE_DIR;
+
+static STATIC_FILE_DIR:&'static str = "./frontend_ui/static/templates";
 
 pub struct WebServer{}
 impl WebServer {
