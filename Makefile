@@ -7,9 +7,9 @@ frontend:
 backend:
 	./backend/all.sh
 sqlx_frontend:
-	cd frontend_ui;cargo sqlx prepare -- --lib
+	cd frontend;cargo sqlx prepare -- --lib
 sqlx_backend:
-	cd backend_data;cargo sqlx prepare -- --lib
+	cd backend;cargo sqlx prepare -- --lib
 maintenance:
 	cargo fmt
 	cargo clippy
