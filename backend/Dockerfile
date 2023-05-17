@@ -16,5 +16,5 @@ COPY --from=builder /app/target/release/backend backend
 COPY .env .
 COPY config/configuration.yaml .
 
-ENTRYPOINT ["./alpacol"]
+ENTRYPOINT ["./backend"]
 
