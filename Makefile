@@ -2,8 +2,10 @@ web:
 	cargo run --release -- frontend_ui
 webdev:
 	cargo run -- frontend_ui
-prod:
+frontend:
 	./frontend_ui/all.sh
+backend:
+	./backend_data/all.sh
 dev:
 	cargo run -p trader
 maintenance:

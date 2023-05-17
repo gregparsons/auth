@@ -7,12 +7,12 @@ RUN apt-get update && apt-get -y upgrade && apt install lld clang -y
 WORKDIR /app
 COPY . .
 ENV SQLX_OFFLINE=true
-RUN cargo build -p frontend_ui --release
+RUN cargo build -p frontend --release
 
 # runtime stage
 FROM rust:1.68.2-slim as runtime
 WORKDIR /app
-COPY --from=builder /app/target/release/alpacol alpacol
+COPY --from=builder /app/target/release/frontend frontend
 COPY .env .
 # copy the contents of static (the templates folder) to a path that works without drama equally in/out of docker
 COPY static /app/trader/static
@@ -20,5 +20,5 @@ COPY static /app/trader/static
 # relative to the Dockerfile
 COPY config/configuration.yaml .
 
-ENTRYPOINT ["./alpacol"]
+ENTRYPOINT ["./frontend"]
 

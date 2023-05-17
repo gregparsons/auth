@@ -36,9 +36,6 @@ sqlx = { version="0.6.2", features=["runtime-async-std-rustls", "macros", "postg
 time = "0.3.20"
 
 rust_decimal = "1.27.0"
-
-
-
 actix-web = "4"
 config = "0.13.3"
 handlebars = { version = "4.3.6", features = ["dir_source"] }
