@@ -18,7 +18,9 @@ maintenance:
 	# cargo doc
 devport:
 	ssh -L 54320:10.1.1.205:54320 swimr205
-sqlx:
-	cd trader;cargo sqlx prepare -- --lib
+sqlx_frontend:
+	cd frontend_ui;cargo sqlx prepare -- --lib
+sqlx_backend:
+	cd backend_data;cargo sqlx prepare -- --lib
 test:
 	export CONFIG_LOCATION=test;cargo test -p trader
