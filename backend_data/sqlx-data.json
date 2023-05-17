@@ -22,139 +22,92 @@
     },
     "query": "\n            insert into alpaca_activity\n                (\n                id\n                , activity_type\n                , activity_subtype\n                , transaction_time\n                , symbol\n                , side\n                , qty\n                , price\n                , cum_qty\n                , leaves_qty\n                , order_id\n                )\n                values (\n                    $1\n                    ,$2\n                    ,$3\n                    ,$4\n                    ,$5\n                    ,$6\n                    ,$7\n                    ,$8\n                    ,$9\n                    ,$10\n                    ,$11\n                    )"
   },
-  "2648629765c1a4b1a4f8e579999f86cf5cdfd96812213f81a7e46f3d940afdfa": {
+  "41e310b7a132e9b1fe68c9c9549392df44f6206231105591f371d00e75d6342b": {
     "describe": {
       "columns": [
         {
-          "name": "user_id",
+          "name": "symbol!",
           "ordinal": 0,
-          "type_info": "Uuid"
+          "type_info": "Varchar"
         }
       ],
       "nullable": [
         false
       ],
       "parameters": {
-        "Left": [
-          "Text",
-          "Text"
-        ]
+        "Left": []
       }
     },
-    "query": "\n            with rows as (\n                insert into users (\n                    user_id, username, password\n                )\n                values (gen_random_uuid(), $1, $2)\n                returning user_id\n            ) select user_id from rows\n        "
+    "query": "select symbol as \"symbol!\" from t_symbol where active=true"
   },
-  "9ef773649821c43cdbdf0104e584d934e0f42ea731da38c4b66c9657e3a87500": {
+  "63cd399a7a6ddae29f88c4c89285c6867d2e5dca354c39188d9fcb70908a93e3": {
     "describe": {
       "columns": [
         {
           "name": "dtg!",
           "ordinal": 0,
-          "type_info": "Timestamp"
+          "type_info": "Timestamptz"
         },
         {
-          "name": "symbol!",
+          "name": "alpaca_paper_id!",
           "ordinal": 1,
           "type_info": "Varchar"
         },
         {
-          "name": "price!",
+          "name": "alpaca_paper_secret!",
           "ordinal": 2,
-          "type_info": "Numeric"
+          "type_info": "Varchar"
         },
         {
-          "name": "size!",
+          "name": "alpaca_live_id!",
           "ordinal": 3,
-          "type_info": "Numeric"
-        },
-        {
-          "name": "exchange",
-          "ordinal": 4,
-          "type_info": "Int4"
-        }
-      ],
-      "nullable": [
-        true,
-        null,
-        true,
-        true,
-        true
-      ],
-      "parameters": {
-        "Left": []
-      }
-    },
-    "query": "\n            select\n                dtg as \"dtg!\",\n                coalesce(symbol, '') as \"symbol!\",\n                price as \"price!\",\n                size as \"size!\",\n                exchange as \"exchange\"\n            from\n                v_trade_minute\n            order by dtg desc\n            limit 1000\n        "
-  },
-  "c7db98645f2c87a75c8daea86b4d69a6a28987f084eb765a6632aaf1716185c9": {
-    "describe": {
-      "columns": [
-        {
-          "name": "user_id",
-          "ordinal": 0,
-          "type_info": "Uuid"
-        },
-        {
-          "name": "username",
-          "ordinal": 1,
-          "type_info": "Text"
-        },
-        {
-          "name": "password",
-          "ordinal": 2,
-          "type_info": "Text"
-        }
-      ],
-      "nullable": [
-        false,
-        false,
-        false
-      ],
-      "parameters": {
-        "Left": [
-          "Text"
-        ]
-      }
-    },
-    "query": "\n            select\n                user_id, username, password\n            from users\n            where username = $1\n        "
-  },
-  "daba3b3a313c78ad45cc256e628c176ff84fb02e4e111976ac6a4f69d67642e8": {
-    "describe": {
-      "columns": [
-        {
-          "name": "profit!",
-          "ordinal": 0,
-          "type_info": "Numeric"
-        }
-      ],
-      "nullable": [
-        null
-      ],
-      "parameters": {
-        "Left": []
-      }
-    },
-    "query": "\n                    select sum(\"subtotal!\") as \"profit!\" from v_profit\n                "
-  },
-  "eb4826fd20c4c240a77bd7db0e10b3fc1ddd5ef2cde3126a7a8faf0e2932622e": {
-    "describe": {
-      "columns": [
-        {
-          "name": "symbol!",
-          "ordinal": 0,
           "type_info": "Varchar"
         },
         {
-          "name": "qty!",
-          "ordinal": 1,
+          "name": "alpaca_live_secret!",
+          "ordinal": 4,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "trade_size!",
+          "ordinal": 5,
+          "type_info": "Int4"
+        },
+        {
+          "name": "trade_enable_buy!",
+          "ordinal": 6,
+          "type_info": "Bool"
+        },
+        {
+          "name": "trade_ema_small_size!",
+          "ordinal": 7,
+          "type_info": "Int4"
+        },
+        {
+          "name": "trade_ema_large_size!",
+          "ordinal": 8,
+          "type_info": "Int4"
+        },
+        {
+          "name": "trade_sell_high_per_cent_multiplier!",
+          "ordinal": 9,
           "type_info": "Numeric"
         },
         {
-          "name": "subtotal!",
-          "ordinal": 2,
+          "name": "trade_sell_high_upper_limit_cents!",
+          "ordinal": 10,
           "type_info": "Numeric"
         }
       ],
       "nullable": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
         true,
         true,
         true
@@ -163,6 +116,6 @@
         "Left": []
       }
     },
-    "query": "\n                    select\n                        \"symbol!\", \"qty!\", \"subtotal!\"\n                    from v_profit\n                "
+    "query": "\n                select\n                    dtg as \"dtg!\"\n                    , alpaca_paper_id as \"alpaca_paper_id!\"\n                    , alpaca_paper_secret as \"alpaca_paper_secret!\"\n                    , alpaca_live_id as \"alpaca_live_id!\"\n                    , alpaca_live_secret as \"alpaca_live_secret!\"\n                    , trade_size as \"trade_size!\"\n                    , trade_enable_buy as \"trade_enable_buy!\"\n                    , trade_ema_small_size as \"trade_ema_small_size!\"\n                    , trade_ema_large_size as \"trade_ema_large_size!\"\n                    , trade_sell_high_per_cent_multiplier as \"trade_sell_high_per_cent_multiplier!\"\n                    , trade_sell_high_upper_limit_cents as \"trade_sell_high_upper_limit_cents!\"\n                from v_settings;\n            "
   }
 }
