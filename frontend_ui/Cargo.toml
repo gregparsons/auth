@@ -9,7 +9,7 @@ path= "src/frontend_lib/mod.rs"
 
 [[bin]]
 path="src/main.rs"
-name="trade_ui"
+name="trade_frontend"
 
 [dependencies]
 dotenvy = "0.15.6"
