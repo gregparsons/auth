@@ -20,7 +20,7 @@ COPY . .
 # COPY static /app/trader/static
 
 # relative to the Dockerfile
-COPY frontend/config/configuration.yaml .
+COPY trade/frontend/config/configuration.yaml .
 
 ENTRYPOINT ["./trade_frontend"]
 
