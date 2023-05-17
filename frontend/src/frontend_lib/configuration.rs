@@ -42,7 +42,7 @@ pub fn get_yaml_configuration() -> Result<Settings, ConfigError> {
     let config_file_path = match config_location.as_ref() {
         "docker" => "configuration",
         "test" => "config/configuration",
-        _ => "frontend_ui/config/configuration",
+        _ => "frontend/config/configuration",
     };
 
     // let config_file_path = if config_location {
@@ -50,10 +50,10 @@ pub fn get_yaml_configuration() -> Result<Settings, ConfigError> {
     //     "configuration"
     // } else {
     //
-    //     // TODO: this has to be config/configuration for cargo test -p frontend_ui
+    //     // TODO: this has to be config/configuration for cargo test -p frontend
     //     // Cargo test doesn't maintain the root directory reference like cargo run and build, apparently
     //     // Cargo workspaces are probably more work than they're worth
-    //     "frontend_ui/config/configuration"
+    //     "frontend/config/configuration"
     // };
 
     tracing::debug!(

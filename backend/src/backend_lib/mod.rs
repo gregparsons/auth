@@ -1,4 +1,4 @@
-//! frontend_ui
+//! frontend
 
 extern crate core;
 

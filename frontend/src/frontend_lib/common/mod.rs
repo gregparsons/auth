@@ -12,7 +12,7 @@ pub mod trade_struct;
 pub mod settings;
 pub mod sqlx_pool;
 
-// 2023-04-21T19:46:38.674409Z DEBUG frontend_ui::websocket_service: [ws_connect] read text from websocket: [{"T":"error","code":405,"msg":"symbol limit exceeded"}]
+// 2023-04-21T19:46:38.674409Z DEBUG frontend::websocket_service: [ws_connect] read text from websocket: [{"T":"error","code":405,"msg":"symbol limit exceeded"}]
 
 // "celz", "gctk","pearq", "amv",
 

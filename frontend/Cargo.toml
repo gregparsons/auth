@@ -1,5 +1,5 @@
 [package]
-name = "frontend_ui"
+name = "frontend"
 version = "0.2.0"
 authors = ["gp <github@swimr.com>"]
 edition = "2021"

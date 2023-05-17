@@ -3,9 +3,9 @@ web:
 webdev:
 	cargo run -- frontend_ui
 frontend:
-	./frontend_ui/all.sh
+	./frontend/all.sh
 backend:
-	./backend_data/all.sh
+	./backend/all.sh
 sqlx_frontend:
 	cd frontend_ui;cargo sqlx prepare -- --lib
 sqlx_backend:

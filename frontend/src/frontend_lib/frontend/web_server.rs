@@ -14,7 +14,7 @@ use crate::frontend::profit::get_profit;
 use crate::frontend::utils::*;
 // use crate::settings::STATIC_FILE_DIR;
 
-static STATIC_FILE_DIR:&'static str = "./frontend_ui/static/templates";
+static STATIC_FILE_DIR:&'static str = "./frontend/static/templates";
 
 pub struct WebServer{}
 impl WebServer {
@@ -38,7 +38,7 @@ impl WebServer {
         tracing::info!("starting HTTP server at http://localhost:8080");
 
         let configuration = get_yaml_configuration().expect("[web_server] no configuration.yaml?");
-        let conn_pool = PgPool::connect(&configuration.database.connection_string()).await.expect("[frontend_ui][web server] failed to connect to postgres");
+        let conn_pool = PgPool::connect(&configuration.database.connection_string()).await.expect("[frontend][web server] failed to connect to postgres");
         let db_pool = web::Data::new(conn_pool);
 
         // refs:

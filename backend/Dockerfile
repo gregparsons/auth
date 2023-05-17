@@ -7,7 +7,7 @@ RUN apt-get update && apt-get -y upgrade && apt install lld clang -y
 WORKDIR /app
 COPY . .
 ENV SQLX_OFFLINE=true
-RUN cargo build -p backend_data --release
+RUN cargo build -p backend --release
 
 # runtime stage
 FROM rust:1.68.2-slim as runtime
