@@ -1132,7 +1132,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "frontend"
+name = "frontend_ui"
 version = "0.2.0"
 dependencies = [
  "actix-session",

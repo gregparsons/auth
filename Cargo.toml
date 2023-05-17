@@ -1,7 +1,6 @@
 [workspace]
-
 members = [
     "frontend_ui",
-    "backend_data",
+    "backend",
     "monitor"
 ]
