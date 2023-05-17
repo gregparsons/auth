@@ -14,13 +14,12 @@ FROM rust:1.68.2-slim as runtime
 WORKDIR /app
 COPY --from=builder /app/target/release/trade_frontend trade_frontend
 
-COPY . .
-# COPY .env .
+COPY .env .
 # copy the contents of static (the templates folder) to a path that works without drama equally in/out of docker
-# COPY static /app/trader/static
+COPY static /app/trader/static
 
 # relative to the Dockerfile
-COPY trade/frontend/config/configuration.yaml .
+COPY config/configuration.yaml .
 
 ENTRYPOINT ["./trade_frontend"]
 
