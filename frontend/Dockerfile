@@ -16,7 +16,7 @@ COPY --from=builder /app/target/release/trade_frontend trade_frontend
 
 COPY .env .
 # copy the contents of static (the templates folder) to a path that works without drama equally in/out of docker
-COPY static /app/trader/static
+COPY static /app/frontend/static
 
 # relative to the Dockerfile
 COPY config/configuration.yaml .

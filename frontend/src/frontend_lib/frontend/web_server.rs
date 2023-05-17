@@ -14,6 +14,7 @@ use crate::frontend::profit::get_profit;
 use crate::frontend::utils::*;
 // use crate::settings::STATIC_FILE_DIR;
 
+// this corresponds to the Dockerfile "COPY static /app/frontend/static
 static STATIC_FILE_DIR:&'static str = "./frontend/static/templates";
 
 pub struct WebServer{}
