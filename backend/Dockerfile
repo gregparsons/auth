@@ -12,7 +12,7 @@ RUN cargo build -p backend --release
 # runtime stage
 FROM rust:1.68.2-slim as runtime
 WORKDIR /app
-COPY --from=builder /app/target/release/backend_data backend_data
+COPY --from=builder /app/target/release/backend backend
 COPY .env .
 COPY config/configuration.yaml .
 

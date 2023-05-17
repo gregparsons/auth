@@ -2,7 +2,7 @@
 
 extern crate core;
 
-pub mod backend;
+pub mod data_collector;
 pub mod db;
 pub mod models;
 pub mod web_client_service;

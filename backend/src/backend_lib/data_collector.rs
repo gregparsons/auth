@@ -20,11 +20,11 @@ use crate::common::settings::Settings;
 use crate::common::symbol_list::get_symbols;
 use crate::websocket_service::AlpacaStream;
 
-pub struct Backend {}
+pub struct DataCollector {}
 
-impl Backend {
+impl DataCollector {
+
     pub async fn start(pool:PgPool, settings:&Settings) {
-
 
         // old: phase this out for separate microservice and pull data directly from message broker
         // Postgres Database
