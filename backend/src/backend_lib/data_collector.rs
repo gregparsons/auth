@@ -36,6 +36,7 @@ impl DataCollector {
         // Websocket (Incoming) Data Service
         let alpaca_ws_on = bool::from_str(std::env::var("ALPACA_WEBSOCKET_ON").unwrap_or_else(|_| "false".to_owned()).as_str()).unwrap_or(false);
         tracing::info!("ALPACA_WEBSOCKET_ON is: {}", &alpaca_ws_on);
+
         if alpaca_ws_on {
             // spawn long-running text thread
             let tx_db_ws = tx_db.clone();

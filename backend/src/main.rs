@@ -22,7 +22,7 @@ fn init(dot_env_path: &str) {
 /// main
 fn main() {
     // this was useful in another cargo workspace where the path was specific to the crate inside the workspace
-    init(concat!(env!("CARGO_MANIFEST_DIR"), "/.env"));
+    init(concat!(env!("CARGO_MANIFEST_DIR"), "/backend/.env"));
 
     // if you care to see what your macros are doing...
     let tokio_runtime = tokio::runtime::Builder::new_multi_thread()
