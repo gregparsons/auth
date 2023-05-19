@@ -20,17 +20,9 @@ pub async fn run(/*stocks: Vec<String>, tx_database: Sender<DbMsg>, tx_trader: S
     let tokio_handle = Handle::current();
     let pool = create_sqlx_pg_pool().await;
     std::thread::spawn(move || {
-        // let mut pool_opt:Option<Pool<Postgres>> = None;
-        // tokio_handle.spawn( async move {
-        //     pool_opt = Some(create_sqlx_pg_pool().await);
-        // });
 
         tracing::debug!("[run]");
-        // let pool:Pool<Postgres> = get_pool().await;
 
-        // let alpaca_url = std::env::var("ALPACA_API_URL").expect("ALPACA_API_URL");
-        // let alpaca_id = std::env::var("ALPACA_API_ID").expect("ALPACA_API_ID");
-        // let alpaca_secret = std::env::var("ALPACA_API_SECRET").expect("ALPACA_API_SECRET");
         let alpaca_poll_rate_ms: u64 = std::env::var("API_INTERVAL_MILLIS").unwrap_or_else(|_| "5000".to_string()).parse().unwrap_or(5000);
         let time_open_ny = MARKET_OPEN_TIME.clone();
         let time_close_ny = MARKET_CLOSE_TIME.clone();
@@ -44,6 +36,7 @@ pub async fn run(/*stocks: Vec<String>, tx_database: Sender<DbMsg>, tx_trader: S
 
             if time_current_ny >= time_open_ny && time_current_ny <= time_close_ny {
                 tracing::debug!("[rest_service:start] NY time: {:?}, open: {:?}, close: {:?}", &time_current_ny, &time_open_ny, &time_close_ny);
+
                 // Don't need this. Using websocket exclusively.
                 // for stock in stocks.iter() {
                 //     tracing::debug!("[rest_service:start] Market is open (on business days). NY time: {:?}open: {:?}, close: {:?}", &time_current_ny, &time_open_ny, &time_close_ny);
