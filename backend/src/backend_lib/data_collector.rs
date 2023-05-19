@@ -34,7 +34,7 @@ impl DataCollector {
         let tx_db = crate::db::start().await;
         tracing::debug!("[Market::start] db start() complete");
         // Websocket (Incoming) Data Service
-        let alpaca_ws_on = bool::from_str(std::env::var("ALPACA_WEBSOCKET_ON").unwrap_or_else(|_| "false".to_owned()).as_str()).unwrap_or(false);
+        let alpaca_ws_on = bool::from_str(std::env::var("ALPACA_WEBSOCKET_ON").unwrap_or_else(|_| "true".to_owned()).as_str()).unwrap_or(false);
         tracing::info!("ALPACA_WEBSOCKET_ON is: {}", &alpaca_ws_on);
 
         if alpaca_ws_on {
