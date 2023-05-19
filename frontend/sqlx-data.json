@@ -316,37 +316,43 @@
     },
     "query": "\n            select\n                user_id, username, password\n            from users\n            where username = $1\n        "
   },
-  "e5d21bed8485d0ff588734bb107f3def0d0ca49a4aa785c254afe2c8be84ff17": {
+  "df1a05a59de21bb01d1e97502da28e26a0453bdc134c2c36a113a2e2e1bbf4a9": {
     "describe": {
       "columns": [
         {
-          "name": "dtg!",
+          "name": "dtg_utc!",
           "ordinal": 0,
-          "type_info": "Timestamptz"
+          "type_info": "Timestamp"
+        },
+        {
+          "name": "dtg_pacific!",
+          "ordinal": 1,
+          "type_info": "Timestamp"
         },
         {
           "name": "symbol!",
-          "ordinal": 1,
-          "type_info": "Varchar"
-        },
-        {
-          "name": "side!:TradeSide",
           "ordinal": 2,
           "type_info": "Varchar"
         },
         {
-          "name": "qty!",
+          "name": "side!:TradeSide",
           "ordinal": 3,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "qty!",
+          "ordinal": 4,
           "type_info": "Numeric"
         },
         {
           "name": "price!",
-          "ordinal": 4,
+          "ordinal": 5,
           "type_info": "Numeric"
         }
       ],
       "nullable": [
-        true,
+        null,
+        null,
         true,
         true,
         true,
@@ -356,6 +362,6 @@
         "Left": []
       }
     },
-    "query": "\n            select\n                transaction_time as \"dtg!\"\n                ,symbol as \"symbol!\"\n                ,side as \"side!:TradeSide\"\n                ,qty as \"qty!\"\n                ,price as \"price!\"\n            from alpaca_activity\n            order by transaction_time desc\n        "
+    "query": "\n            select\n                transaction_time::timestamp as \"dtg_utc!\"\n                ,timezone('US/Pacific', transaction_time) as \"dtg_pacific!\"\n                ,symbol as \"symbol!\"\n                ,side as \"side!:TradeSide\"\n                ,qty as \"qty!\"\n                ,price as \"price!\"\n            from alpaca_activity\n            order by transaction_time desc\n        "
   }
 }

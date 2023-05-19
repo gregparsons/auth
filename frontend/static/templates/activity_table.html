@@ -19,11 +19,12 @@
 <br>
 <table>
     <tr>
-        <td>DTG</td>
         <td>Symbol</td>
         <td>Side</td>
         <td>Qty</td>
         <td>Price</td>
+        <td>Pacific</td>
+        <td>UTC</td>
     <tr>
     {{#each data}}
     <tr>
@@ -31,7 +32,8 @@
         <td>{{this.side}}</td>
         <td>{{this.qty}}</td>
         <td>${{this.price}}</td>
-        <td>{{this.dtg}}</td>
+        <td>{{this.dtg_pacific}}</td>
+        <td>{{this.dtg_utc}}</td>
     </tr>
     {{/each}}
 </table>

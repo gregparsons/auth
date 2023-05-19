@@ -65,7 +65,8 @@ pub struct ActivityQuery{
     // fill or partial_fill
     // #[serde(rename="type")]
     // pub activity_subtype: ActivitySubtype,
-    pub dtg: DateTime<Utc>,
+    pub dtg_utc: NaiveDateTime,
+    pub dtg_pacific: NaiveDateTime,
     pub symbol: String,
     pub side: TradeSide,
     pub qty: BigDecimal,
@@ -103,7 +104,8 @@ async fn get_activities_from_db(pool:&PgPool) -> Result<Vec<ActivityQuery>,sqlx:
     ActivityQuery,
         r#"
             select
-                transaction_time as "dtg!"
+                transaction_time::timestamp as "dtg_utc!"
+                ,timezone('US/Pacific', transaction_time) as "dtg_pacific!"
                 ,symbol as "symbol!"
                 ,side as "side!:TradeSide"
                 ,qty as "qty!"
