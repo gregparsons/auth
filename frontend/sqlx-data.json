@@ -24,6 +24,90 @@
     },
     "query": "\n            select\n                symbol as \"symbol!\"\n             , active as \"active!\"\n            from t_symbol\n            order by symbol\n        "
   },
+  "1a2c4b80fe410e7b89375023d8532e131d0f1c7b9072bae5b61840e60ac9601e": {
+    "describe": {
+      "columns": [
+        {
+          "name": "symbol!",
+          "ordinal": 0,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "profit_to_date!",
+          "ordinal": 1,
+          "type_info": "Numeric"
+        },
+        {
+          "name": "activity_count!",
+          "ordinal": 2,
+          "type_info": "Numeric"
+        },
+        {
+          "name": "count_today!",
+          "ordinal": 3,
+          "type_info": "Numeric"
+        },
+        {
+          "name": "count_yesterday!",
+          "ordinal": 4,
+          "type_info": "Numeric"
+        },
+        {
+          "name": "price_avg!",
+          "ordinal": 5,
+          "type_info": "Numeric"
+        },
+        {
+          "name": "volume!",
+          "ordinal": 6,
+          "type_info": "Numeric"
+        },
+        {
+          "name": "profit_vs_activities!",
+          "ordinal": 7,
+          "type_info": "Numeric"
+        },
+        {
+          "name": "profit_vs_price!",
+          "ordinal": 8,
+          "type_info": "Numeric"
+        },
+        {
+          "name": "profit_vs_volume!",
+          "ordinal": 9,
+          "type_info": "Numeric"
+        },
+        {
+          "name": "trade_latest!",
+          "ordinal": 10,
+          "type_info": "Timestamp"
+        },
+        {
+          "name": "activity_latest!",
+          "ordinal": 11,
+          "type_info": "Timestamptz"
+        }
+      ],
+      "nullable": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "\n                    select\n                        *\n                    from v_stats\n                "
+  },
   "1bc82d69b282d4096d2ac1089d68e67eac73414efcd7ba189713b76660a35dec": {
     "describe": {
       "columns": [],
@@ -200,90 +284,6 @@
     },
     "query": "\n            select\n                dtg as \"dtg!\",\n                coalesce(symbol, '') as \"symbol!\",\n                price as \"price!\",\n                size as \"size!\",\n                exchange as \"exchange\"\n            from\n                v_trade_minute\n            order by dtg desc\n            limit 1000\n        "
   },
-  "c345cf4a74424b84df038d355e4ba6071c3136aa32582b88c4de20dc0be04fb2": {
-    "describe": {
-      "columns": [
-        {
-          "name": "symbol!",
-          "ordinal": 0,
-          "type_info": "Varchar"
-        },
-        {
-          "name": "profit_to_date!",
-          "ordinal": 1,
-          "type_info": "Numeric"
-        },
-        {
-          "name": "activity_count!",
-          "ordinal": 2,
-          "type_info": "Numeric"
-        },
-        {
-          "name": "count_today!",
-          "ordinal": 3,
-          "type_info": "Numeric"
-        },
-        {
-          "name": "count_yesterday!",
-          "ordinal": 4,
-          "type_info": "Numeric"
-        },
-        {
-          "name": "price_avg!",
-          "ordinal": 5,
-          "type_info": "Numeric"
-        },
-        {
-          "name": "volume!",
-          "ordinal": 6,
-          "type_info": "Numeric"
-        },
-        {
-          "name": "profit_vs_activities!",
-          "ordinal": 7,
-          "type_info": "Numeric"
-        },
-        {
-          "name": "profit_vs_price!",
-          "ordinal": 8,
-          "type_info": "Numeric"
-        },
-        {
-          "name": "profit_vs_volume!",
-          "ordinal": 9,
-          "type_info": "Numeric"
-        },
-        {
-          "name": "trade_latest!",
-          "ordinal": 10,
-          "type_info": "Timestamp"
-        },
-        {
-          "name": "activity_latest!",
-          "ordinal": 11,
-          "type_info": "Timestamptz"
-        }
-      ],
-      "nullable": [
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true
-      ],
-      "parameters": {
-        "Left": []
-      }
-    },
-    "query": "\n                    select * from v_stats\n                "
-  },
   "c7db98645f2c87a75c8daea86b4d69a6a28987f084eb765a6632aaf1716185c9": {
     "describe": {
       "columns": [
@@ -316,22 +316,46 @@
     },
     "query": "\n            select\n                user_id, username, password\n            from users\n            where username = $1\n        "
   },
-  "daba3b3a313c78ad45cc256e628c176ff84fb02e4e111976ac6a4f69d67642e8": {
+  "e5d21bed8485d0ff588734bb107f3def0d0ca49a4aa785c254afe2c8be84ff17": {
     "describe": {
       "columns": [
         {
-          "name": "profit!",
+          "name": "dtg!",
           "ordinal": 0,
+          "type_info": "Timestamptz"
+        },
+        {
+          "name": "symbol!",
+          "ordinal": 1,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "side!:TradeSide",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "qty!",
+          "ordinal": 3,
+          "type_info": "Numeric"
+        },
+        {
+          "name": "price!",
+          "ordinal": 4,
           "type_info": "Numeric"
         }
       ],
       "nullable": [
-        null
+        true,
+        true,
+        true,
+        true,
+        true
       ],
       "parameters": {
         "Left": []
       }
     },
-    "query": "\n                    select sum(\"subtotal!\") as \"profit!\" from v_profit\n                "
+    "query": "\n            select\n                transaction_time as \"dtg!\"\n                ,symbol as \"symbol!\"\n                ,side as \"side!:TradeSide\"\n                ,qty as \"qty!\"\n                ,price as \"price!\"\n            from alpaca_activity\n            order by transaction_time desc\n        "
   }
 }
