@@ -11,6 +11,7 @@ use crate::frontend::login::{get_login, get_logout, post_login};
 use crate::frontend::metrics::{get_avg, get_chart};
 use crate::frontend::account::get_account;
 use crate::frontend::profit::get_profit;
+use crate::frontend::symbols::{get_symbols, post_symbols};
 use crate::frontend::utils::*;
 // use crate::settings::STATIC_FILE_DIR;
 
@@ -73,6 +74,8 @@ impl WebServer {
                 .route("/profit", web::get().to(get_profit))
                 .route("/account", web::get().to(get_account))
                 .route("/logout", web::get().to(get_logout))
+                .route("/symbols", web::get().to(get_symbols))
+                .route("/symbols", web::post().to(post_symbols))
 
         }).bind(("0.0.0.0", web_port))?
             .workers(2)

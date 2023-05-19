@@ -1,6 +1,6 @@
 //! http.rs
 
-use actix_web::HttpResponse;
+use actix_web::{HttpResponse};
 
 /// 302 redirect to the relative root "/"
 /// authorization: TBD

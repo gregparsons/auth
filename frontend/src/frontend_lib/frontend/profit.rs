@@ -2,7 +2,7 @@
 //!
 
 use actix_session::Session;
-use actix_web::{HttpResponse, Responder, web};
+use actix_web::{HttpResponse, web};
 use bigdecimal::BigDecimal;
 use chrono::{DateTime, NaiveDateTime, Utc};
 use handlebars::Handlebars;
@@ -37,7 +37,7 @@ pub struct QueryProfitTotal {
 
 /// GET /profit
 /// print a table of stocks P/L
-pub async fn get_profit(hb: web::Data<Handlebars<'_>>, db_pool: web::Data<PgPool>, session:Session) -> impl Responder {
+pub async fn get_profit(hb: web::Data<Handlebars<'_>>, db_pool: web::Data<PgPool>, session:Session) -> HttpResponse {
 
     tracing::debug!("[get_profit]");
 

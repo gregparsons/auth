@@ -1,7 +1,7 @@
 //! login.rs
 
 use actix_session::Session;
-use actix_web::{HttpResponse, Responder, web};
+use actix_web::{HttpResponse, web};
 use argon2::{Argon2, PasswordHash, PasswordVerifier};
 use handlebars::Handlebars;
 use serde_json::json;
@@ -84,7 +84,7 @@ pub async fn post_login(form: web::Form<FormData>, hb: web::Data<Handlebars<'_>>
     }
 }
 
-pub async fn get_logout(session:Session) -> impl Responder {
+pub async fn get_logout(session:Session) -> HttpResponse {
     session.purge();
     redirect_home().await
 }

@@ -25,7 +25,7 @@ struct SignupResult{
 }
 
 /// ref: p. 360 zero2prod
-pub async fn post_signup(form: web::Form<FormData>, hb: web::Data<Handlebars<'_>>, db_pool: web::Data<PgPool>) -> HttpResponse {
+pub async fn post_signup(form: web::Form<FormData>, hb: web::Data<Handlebars<'_>>, pool: web::Data<PgPool>) -> HttpResponse {
 
     tracing::debug!("[post_signup] {:?}", &form);
 
@@ -45,7 +45,7 @@ pub async fn post_signup(form: web::Form<FormData>, hb: web::Data<Handlebars<'_>
                 returning user_id
             ) select user_id from rows
         "#, form.username, password_hash
-    ).fetch_one(db_pool.as_ref())
+    ).fetch_one(pool.as_ref())
     .await;
 
     let message = match signup_result {

@@ -33,3 +33,5 @@ pub async fn get_symbols(pool:&PgPool)-> Result<Vec<String>,sqlx::Error>{
         }
     }
 }
+
+
