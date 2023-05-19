@@ -15,7 +15,7 @@ pub struct JsonTrade{
     pub(crate) extended_hours: Option<bool>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(sqlx::Type, Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub enum TradeSide{
     #[serde(rename = "buy")]
     Buy,
@@ -25,9 +25,7 @@ pub enum TradeSide{
     SellShort,
 }
 
-
 impl fmt::Display for TradeSide {
-
     /// enable to_string()
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fmt::Debug::fmt(self, f)
@@ -44,8 +42,6 @@ pub enum TimeInForce{
     // Immediate or Cancel
     #[serde(rename = "ioc")]
     Ioc,
-
-
 
 }
 

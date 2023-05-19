@@ -48,7 +48,9 @@ pub async fn get_profit(hb: web::Data<Handlebars<'_>>, db_pool: web::Data<PgPool
         let profit_vec = match sqlx::query_as!(
             QueryProfit,
                 r#"
-                    select * from v_stats
+                    select
+                        *
+                    from v_stats
                 "#,
             ).fetch_all(db_pool.as_ref()).await {
 
@@ -63,25 +65,25 @@ pub async fn get_profit(hb: web::Data<Handlebars<'_>>, db_pool: web::Data<PgPool
         // let json_string = json!(profit_vec).to_string();
         // tracing::debug!("[get_profit] profit report:\n{:?}", &json_string);
 
-        let prof_ttl:QueryProfitTotal = match sqlx::query_as!(
-            QueryProfitTotal,
-                r#"
-                    select sum("subtotal!") as "profit!" from v_profit
-                "#,
-            )
-            .fetch_one(db_pool.as_ref())
-            .await {
-
-                    Ok(one) => one,
-                    Err(_e) => {
-                        QueryProfitTotal{
-                            profit: BigDecimal::from(0),
-                        }
-                    },
-            };
-
-
-        tracing::debug!("{:?}", &prof_ttl);
+        // let prof_ttl:QueryProfitTotal = match sqlx::query_as!(
+        //     QueryProfitTotal,
+        //         r#"
+        //             select sum("subtotal!") as "profit!" from v_profit
+        //         "#,
+        //     )
+        //     .fetch_one(db_pool.as_ref())
+        //     .await {
+        //
+        //             Ok(one) => one,
+        //             Err(_e) => {
+        //                 QueryProfitTotal{
+        //                     profit: BigDecimal::from(0),
+        //                 }
+        //             },
+        //     };
+        //
+        //
+        // tracing::debug!("{:?}", &prof_ttl);
 
         let data = json!({
             "title": "Profit",
@@ -89,7 +91,7 @@ pub async fn get_profit(hb: web::Data<Handlebars<'_>>, db_pool: web::Data<PgPool
             "is_logged_in": true,
             "session_username": &session_username,
             "data": profit_vec,
-            "profit_total": prof_ttl
+            // "profit_total": prof_ttl
         });
 
         let body = hb.render("profit_table", &data).unwrap();

@@ -7,10 +7,11 @@ use chrono::{Utc};
 use crate::alpaca_activity::get_activity_api;
 use crate::common::{MARKET_OPEN_TIME, MARKET_CLOSE_TIME};
 use tokio::runtime::Handle;
+use crate::common::settings::Settings;
 use crate::common::sqlx_pool::create_sqlx_pg_pool;
 
 /// Spawn a new thread to poll the Alpaca REST API
-pub async fn run(/*stocks: Vec<String>, tx_database: Sender<DbMsg>, tx_trader: Sender<TraderMsg>*/) {
+pub async fn run() {
 
     // run an async runtime inside the thread; it's a mess to try to run code copied from elsewhere
     // that normally runs async but is now running in a thread; much easier to just start a new
@@ -23,6 +24,7 @@ pub async fn run(/*stocks: Vec<String>, tx_database: Sender<DbMsg>, tx_trader: S
 
         tracing::debug!("[run]");
 
+        // this is set in all.sh via docker run
         let alpaca_poll_rate_ms: u64 = std::env::var("API_INTERVAL_MILLIS").unwrap_or_else(|_| "5000".to_string()).parse().unwrap_or(5000);
         let time_open_ny = MARKET_OPEN_TIME.clone();
         let time_close_ny = MARKET_CLOSE_TIME.clone();
@@ -37,6 +39,7 @@ pub async fn run(/*stocks: Vec<String>, tx_database: Sender<DbMsg>, tx_trader: S
             if time_current_ny >= time_open_ny && time_current_ny <= time_close_ny {
                 tracing::debug!("[rest_service:start] NY time: {:?}, open: {:?}, close: {:?}", &time_current_ny, &time_open_ny, &time_close_ny);
 
+
                 // Don't need this. Using websocket exclusively.
                 // for stock in stocks.iter() {
                 //     tracing::debug!("[rest_service:start] Market is open (on business days). NY time: {:?}open: {:?}, close: {:?}", &time_current_ny, &time_open_ny, &time_close_ny);
@@ -46,9 +49,16 @@ pub async fn run(/*stocks: Vec<String>, tx_database: Sender<DbMsg>, tx_trader: S
                 // Poll the activity API
                 // https://stackoverflow.com/questions/61292425/how-to-run-an-asynchronous-task-from-a-non-main-thread-in-tokio/63434522#63434522
                 tokio_handle.spawn( async move {
-                    let _ = get_activity_api(pool3).await;
+                    // refresh settings from the database
+                    match Settings::load(&pool3).await {
+                        Ok(settings)=>{
+                            let _ = get_activity_api(pool3, &settings).await;
+                        },
+                        Err(e) => {
+                            tracing::debug!("[run] couldn't load settings in loop to update activities: {:?}", &e);
+                        }
+                    }
                 });
-
             } else {
                 tracing::debug!("[rest_service:start] market is closed. NY time: {:?}, open: {:?}, close: {:?}", &time_current_ny, &time_open_ny, &time_close_ny);
             }

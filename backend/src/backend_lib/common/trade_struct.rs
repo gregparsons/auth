@@ -15,6 +15,7 @@ pub struct JsonTrade{
     pub(crate) extended_hours: Option<bool>,
 }
 
+// https://docs.rs/sqlx/0.4.2/sqlx/macro.query.html#type-overrides-bind-parameters-postgres-only
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub enum TradeSide{
     #[serde(rename = "buy")]
