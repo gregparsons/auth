@@ -9,7 +9,7 @@ path= "src/frontend_lib/mod.rs"
 
 [[bin]]
 path="src/main.rs"
-name="trade_frontend"
+name="frontend"
 
 [dependencies]
 common_lib = { path="../common_lib"}
