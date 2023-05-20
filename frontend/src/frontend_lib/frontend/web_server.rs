@@ -23,7 +23,7 @@ pub struct WebServer{}
 impl WebServer {
 
     pub async fn run() {
-        let settings = get_yaml_configuration().expect("no configuration.yaml");
+        let settings =get_yaml_configuration().expect("no configuration.yaml");
         let address = format!("{}:{}", settings.database.host, settings.database.port);
         tracing::debug!("[run] address from config: {}", &address);
 
