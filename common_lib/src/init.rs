@@ -22,7 +22,7 @@ pub fn init(package_name:&str) {
         }
     };
 
-    let env_file_version = std::env::var("ENV_FILE_VERSION").unwrap_or_else(".env not loaded".to_string());
+    let env_file_version = std::env::var("ENV_FILE_VERSION").unwrap_or_else(|_| ".env not loaded".to_string());
 
     println!("[init] dot_env_path: {}; env_file_version: {}", &dot_env_path, &env_file_version);
 
