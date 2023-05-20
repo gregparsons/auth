@@ -13,9 +13,9 @@ WORKDIR /app
 COPY --from=builder /app/target/release/frontend frontend
 COPY frontend/.env .
 # copy the contents of static (the templates folder) to a path that works without drama equally in/out of docker
-COPY frontend/static /app/frontend/static
+COPY frontend/static .
 
 # relative to the Dockerfile
-COPY frontend/config /app/frontend/config
+COPY frontend/config .
 ENTRYPOINT ["./frontend"]
 
