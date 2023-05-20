@@ -23,14 +23,12 @@ pub fn init(package_name:&str) {
     };
 
     println!("[init] dot_env_path: {}", &dot_env_path);
-    //concat!(env!("CARGO_MANIFEST_DIR"), "/.env")
 
     match dotenvy::from_filename(&dot_env_path) {
         Ok(_) => tracing::debug!(".env found"),
         _ => tracing::debug!(".env not found"),
     }
     tracing_subscriber::registry().with(fmt::layer()).with(EnvFilter::from_default_env()).init();
-
     tracing::debug!("[init] .env file: {}", &dot_env_path);
 
 }
