@@ -37,29 +37,14 @@ impl DatabaseSettings {
 /// somewhat inspired by zero2prod but its guidance for config is deprecated (1/16/2023)
 pub fn get_yaml_configuration() -> Result<Settings, ConfigError> {
 
-    let config_location = std::env::var("CONFIG_LOCATION").unwrap_or_else(|_| "dev".to_string());
+    let config_location = std::env::var("CONFIG_LOCATION").unwrap_or_else(|_| "not_docker".to_string());
 
     let config_file_path = match config_location.as_ref() {
-        "docker" => "configuration",
-        "test" => "config/configuration",
+        "docker" => "config/configuration",
         _ => "frontend/config/configuration",
     };
 
-    // let config_file_path = if config_location {
-    //     // Dockerfile says to copy to "."
-    //     "configuration"
-    // } else {
-    //
-    //     // TODO: this has to be config/configuration for cargo test -p frontend
-    //     // Cargo test doesn't maintain the root directory reference like cargo run and build, apparently
-    //     // Cargo workspaces are probably more work than they're worth
-    //     "frontend/config/configuration"
-    // };
-
-    tracing::debug!(
-        "[get_yaml_configuration] config_file_path: {}",
-        &config_file_path
-    );
+    tracing::debug!("[get_yaml_configuration] config_file_path: {}",&config_file_path);
 
     // this file path is different in Docker due to the cargo workspace; kind of annoying
     let settings = config::Config::builder()
