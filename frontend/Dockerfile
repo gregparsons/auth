@@ -6,6 +6,7 @@ RUN apt-get update && apt-get -y upgrade && apt install lld clang -y
 
 WORKDIR /app
 COPY . .
+COPY ../common_lib /app/common_lib
 ENV SQLX_OFFLINE=true
 RUN cargo build -p frontend --release
 
