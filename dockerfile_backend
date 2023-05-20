@@ -12,8 +12,8 @@ RUN cargo build -p backend --release
 FROM rust:1.68.2-slim as runtime
 WORKDIR /app
 COPY --from=builder /app/target/release/backend backend
-COPY backend/.env .
-COPY backend/config ./config
+COPY frontend/.env .
+COPY frontend/config ./config/
 
 ENTRYPOINT ["./backend"]
 
