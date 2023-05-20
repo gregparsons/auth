@@ -2,8 +2,6 @@ web:
 	cargo run --release -- frontend_ui
 webdev:
 	cargo run -- frontend_ui
-docker_frontend:
-	./frontend/all_docker.sh
 frontend:
 	./frontend/all.sh
 backend:
