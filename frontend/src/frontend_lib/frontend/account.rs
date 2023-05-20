@@ -9,11 +9,11 @@ use handlebars::Handlebars;
 use reqwest::header::HeaderMap;
 use serde_json::json;
 use sqlx::PgPool;
-use crate::common::common_structs::SESSION_USERNAME;
-use crate::common::http::redirect_home;
+use common_lib::common_structs::SESSION_USERNAME;
+use common_lib::http::redirect_home;
 
 use serde::{Serialize, Deserialize};
-use crate::common::settings::Settings;
+use common_lib::settings::Settings;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Account {

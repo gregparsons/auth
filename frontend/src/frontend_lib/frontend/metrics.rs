@@ -5,8 +5,8 @@ use actix_web::{HttpResponse, Responder, web};
 use handlebars::Handlebars;
 use serde_json::json;
 use sqlx::PgPool;
-use crate::common::common_structs::{QueryAverage, SESSION_USERNAME};
-use crate::common::http::redirect_home;
+use common_lib::common_structs::{QueryAverage, SESSION_USERNAME};
+use common_lib::http::redirect_home;
 
 /// authorization: required
 pub async fn get_avg(hb: web::Data<Handlebars<'_>>, db_pool: web::Data<PgPool>, session:Session) -> impl Responder {

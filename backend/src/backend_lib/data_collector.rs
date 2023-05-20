@@ -16,8 +16,8 @@
 
 use std::str::FromStr;
 use sqlx::PgPool;
-use crate::common::settings::Settings;
-use crate::common::symbol_list::get_symbols;
+use common_lib::settings::Settings;
+use common_lib::symbol_list::get_symbols;
 use crate::websocket_service::AlpacaStream;
 
 pub struct DataCollector {}
@@ -81,9 +81,7 @@ impl DataCollector {
 
         if alpaca_rest_on {
             tracing::debug!("[Market::start] starting alpaca web client");
-
             crate::web_client_service::run(/*stocks, tx_db, tx_trader*/).await;
-
             tracing::debug!("[Market::start] alpaca web client finished");
         } else {
             tracing::debug!("Rest service not started, ALPACA_REST_ON is false");

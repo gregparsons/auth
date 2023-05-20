@@ -27,37 +27,37 @@ pub struct MinuteBar{
     #[serde(rename = "T")]
     msg_type: String,
     #[serde(rename = "S")]
-    pub(crate) symbol: String,
+    pub symbol: String,
     #[serde(rename = "o")]
-    pub(crate) price_open: BigDecimal,
+    pub price_open: BigDecimal,
     #[serde(rename = "h")]
-    pub(crate) price_high: BigDecimal,
+    pub price_high: BigDecimal,
     #[serde(rename = "l")]
-    pub(crate) price_low: BigDecimal,
+    pub price_low: BigDecimal,
     #[serde(rename = "c")]
-    pub(crate) price_close: BigDecimal,
+    pub price_close: BigDecimal,
     #[serde(rename = "v")]
-    pub(crate) volume: usize,
+    pub volume: usize,
     #[serde(rename = "t")]
-    pub(crate) dtg: DateTime<Utc>,
+    pub dtg: DateTime<Utc>,
 }
 
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct WsAuthenticate {
-    pub(crate) action: String,
-    pub(crate) key: String,
-    pub(crate) secret: String,
+    pub action: String,
+    pub key: String,
+    pub secret: String,
 }
 
 // { "action": "listen", "data": { "streams": ["T.TSLA", "Q.TSLA", "Q.AAPL", "T.AAPL"]}}
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct WsListenMessage {
-    pub(crate) action: String,
-    pub(crate) data: WsListenMessageData,
+    pub action: String,
+    pub data: WsListenMessageData,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct WsListenMessageData {
-    pub(crate) streams: Vec<String>,
+    pub streams: Vec<String>,
 }

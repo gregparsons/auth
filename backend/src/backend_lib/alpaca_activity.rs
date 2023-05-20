@@ -16,8 +16,8 @@ use reqwest::header::HeaderMap;
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
 use sqlx::postgres::PgQueryResult;
-use crate::common::settings::Settings;
-use crate::common::trade_struct::TradeSide;
+use common_lib::settings::Settings;
+use common_lib::trade_struct::TradeSide;
 
 /// load all the most recent activities
 /// 1. get the most recent activity in the database

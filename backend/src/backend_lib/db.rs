@@ -7,7 +7,7 @@ use crate::models::{AlpWsQuote, AlpWsTrade, AlpacaTradeRest};
 use crossbeam::channel::Sender;
 use std::thread::JoinHandle;
 use tokio_postgres::{Client, SimpleQueryMessage};
-use crate::common::common_structs::MinuteBar;
+use common_lib::common_structs::MinuteBar;
 
 #[derive(Debug)]
 pub enum DbMsg {

@@ -12,15 +12,17 @@ path="src/main.rs"
 name="trade_frontend"
 
 [dependencies]
-dotenvy = "0.15.6"
+common_lib = { path="../common_lib"}
+
+#dotenvy = "0.15.6"
 tracing = "0.1.37"
-tracing-subscriber = {version = "0.3.16", features=[ "std", "registry", "env-filter", "fmt"]}
+#tracing-subscriber = {version = "0.3.16", features=[ "std", "registry", "env-filter", "fmt"]}
 tokio = { version = "1.24.1", features = ["rt-multi-thread"] }
 crossbeam = "0.8.2"
 crossbeam-channel = "0.5.6"
 tokio-postgres = { version = "0.7.7", features = ["with-chrono-0_4"]}
-tungstenite = {version = "0.18.0", features = ["native-tls"]}
-futures-util = { version = "0.3.21", default-features = false, features = ["sink", "std"] }
+#tungstenite = {version = "0.18.0", features = ["native-tls"]}
+#futures-util = { version = "0.3.21", default-features = false, features = ["sink", "std"] }
 url = "2.2.2"
 
 serde = { version = "1.0.152", features = ["derive"] }
@@ -28,8 +30,8 @@ serde_json="1.0.91"
 reqwest = { version = "0.11.14", features = ["json"] }
 bigdecimal = {version = "0.3.0", features = ["serde"]}
 sqlx = { version="0.6.2", features=["runtime-async-std-rustls", "macros", "postgres", "uuid", "chrono", "bigdecimal", "offline"]}
- chrono = { version = "0.4.23", features = ["serde"]}
- chrono-tz = "0.8.2"
+chrono = { version = "0.4.23", features = ["serde"]}
+chrono-tz = "0.8.2"
 
 time = "0.3.20"
 

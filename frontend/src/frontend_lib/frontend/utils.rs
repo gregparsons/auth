@@ -4,8 +4,8 @@ use actix_session::Session;
 use actix_web::{HttpResponse, Responder, web};
 use handlebars::Handlebars;
 use serde_json::json;
-use crate::common::common_structs::SESSION_USERNAME;
-use crate::common::http::redirect_home;
+use common_lib::common_structs::SESSION_USERNAME;
+use common_lib::http::redirect_home;
 
 /// authorization: not required
 pub async fn get_home(hb: web::Data<Handlebars<'_>>, session:Session) -> HttpResponse {

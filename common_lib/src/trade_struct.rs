@@ -16,7 +16,7 @@ pub struct JsonTrade{
 }
 
 // https://docs.rs/sqlx/0.4.2/sqlx/macro.query.html#type-overrides-bind-parameters-postgres-only
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(sqlx::Type, Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub enum TradeSide{
     #[serde(rename = "buy")]
     Buy,

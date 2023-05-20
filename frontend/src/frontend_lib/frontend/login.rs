@@ -7,8 +7,8 @@ use handlebars::Handlebars;
 use serde_json::json;
 use sqlx::PgPool;
 use sqlx::types::Uuid;
-use crate::common::common_structs::{FormData, SESSION_USER_ID, SESSION_USERNAME};
-use crate::common::http::redirect_home;
+use common_lib::common_structs::{FormData, SESSION_USER_ID, SESSION_USERNAME};
+use common_lib::http::redirect_home;
 
 /// curl http://localhost:8080/login
 /// authorization: TBD

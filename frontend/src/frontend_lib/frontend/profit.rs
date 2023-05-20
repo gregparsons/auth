@@ -10,8 +10,8 @@ use serde_json::json;
 use sqlx::PgPool;
 use serde::{Deserialize, Serialize};
 
-use crate::common::common_structs::SESSION_USERNAME;
-use crate::common::http::redirect_home;
+use common_lib::common_structs::SESSION_USERNAME;
+use common_lib::http::redirect_home;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct QueryProfit {

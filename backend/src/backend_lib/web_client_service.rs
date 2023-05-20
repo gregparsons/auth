@@ -7,8 +7,8 @@ use chrono::{Utc};
 use crate::alpaca_activity::get_activity_api;
 use crate::common::{MARKET_OPEN_TIME, MARKET_CLOSE_TIME};
 use tokio::runtime::Handle;
-use crate::common::settings::Settings;
-use crate::common::sqlx_pool::create_sqlx_pg_pool;
+use common_lib::settings::Settings;
+use common_lib::sqlx_pool::create_sqlx_pg_pool;
 
 /// Spawn a new thread to poll the Alpaca REST API
 pub async fn run() {
@@ -25,7 +25,7 @@ pub async fn run() {
         tracing::debug!("[run]");
 
         // this is set in all.sh via docker run
-        let alpaca_poll_rate_ms: u64 = std::env::var("API_INTERVAL_MILLIS").unwrap_or_else(|_| "5000".to_string()).parse().unwrap_or(5000);
+        let alpaca_poll_rate_ms: u64 = std::env::var("API_INTERVAL_MILLIS").unwrap_or_else(|_| "15000".to_string()).parse().unwrap_or(5000);
         let time_open_ny = MARKET_OPEN_TIME.clone();
         let time_close_ny = MARKET_CLOSE_TIME.clone();
 

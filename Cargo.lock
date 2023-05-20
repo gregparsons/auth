@@ -471,10 +471,10 @@ dependencies = [
  "bigdecimal",
  "chrono",
  "chrono-tz",
+ "common_lib",
  "config",
  "crossbeam",
  "crossbeam-channel",
- "dotenvy",
  "futures-util",
  "handlebars",
  "once_cell",
@@ -487,10 +487,16 @@ dependencies = [
  "tokio",
  "tokio-postgres",
  "tracing",
- "tracing-subscriber",
  "tungstenite",
  "url",
  "uuid 0.8.2",
+]
+
+[[package]]
+name = "backend_rest"
+version = "0.1.0"
+dependencies = [
+ "common_lib",
 ]
 
 [[package]]
@@ -519,9 +525,9 @@ checksum = "b645a089122eccb6111b4f81cbc1a49f5900ac4666bb93ac027feaecf15607bf"
 
 [[package]]
 name = "bigdecimal"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6aaf33151a6429fe9211d1b276eafdf70cdff28b071e76c0b0e1503221ea3744"
+checksum = "a6773ddc0eafc0e509fb60e48dff7f450f8e674a0686ae8605e8d9901bd5eefa"
 dependencies = [
  "num-bigint",
  "num-integer",
@@ -752,6 +758,20 @@ checksum = "3538270d33cc669650c4b093848450d380def10c331d38c768e34cac80576e6e"
 dependencies = [
  "termcolor",
  "unicode-width",
+]
+
+[[package]]
+name = "common_lib"
+version = "0.1.0"
+dependencies = [
+ "actix-web",
+ "bigdecimal",
+ "chrono",
+ "dotenvy",
+ "serde",
+ "sqlx",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -1141,11 +1161,10 @@ dependencies = [
  "bigdecimal",
  "chrono",
  "chrono-tz",
+ "common_lib",
  "config",
  "crossbeam",
  "crossbeam-channel",
- "dotenvy",
- "futures-util",
  "handlebars",
  "once_cell",
  "rand",
@@ -1158,8 +1177,6 @@ dependencies = [
  "tokio",
  "tokio-postgres",
  "tracing",
- "tracing-subscriber",
- "tungstenite",
  "url",
  "uuid 0.8.2",
 ]

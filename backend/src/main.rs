@@ -1,23 +1,10 @@
 //! main.rs
 #![forbid(unsafe_code)]
 
-use tracing_subscriber::layer::SubscriberExt;
-use tracing_subscriber::util::SubscriberInitExt;
-use tracing_subscriber::{fmt, EnvFilter};
-use backend_lib::common::settings::Settings;
-use backend_lib::common::sqlx_pool::create_sqlx_pg_pool;
 use backend_lib::data_collector::DataCollector;
-
-
-fn init(dot_env_path: &str) {
-    tracing::debug!(".env file: {}", dot_env_path);
-
-    match dotenvy::from_filename(dot_env_path) {
-        Ok(_) => tracing::debug!(".env found"),
-        _ => tracing::debug!(".env not found"),
-    }
-    tracing_subscriber::registry().with(fmt::layer()).with(EnvFilter::from_default_env()).init();
-}
+use common_lib::init::init;
+use common_lib::settings::Settings;
+use common_lib::sqlx_pool::create_sqlx_pg_pool;
 
 /// main
 fn main() {

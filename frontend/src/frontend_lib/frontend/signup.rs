@@ -3,7 +3,7 @@
 use actix_web::{HttpResponse, web};
 use handlebars::Handlebars;
 use serde_json::json;
-use crate::common::common_structs::FormData;
+use common_lib::common_structs::FormData;
 use argon2::password_hash::SaltString; use argon2::{Argon2, PasswordHasher};
 use sqlx::PgPool;
 use sqlx::types::Uuid;
