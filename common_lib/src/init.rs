@@ -6,6 +6,7 @@ use tracing_subscriber::{fmt, EnvFilter};
 
 pub fn init(package_name:&str) {
 
+    // load .env
     // if docker, load .env from the root directory, otherwise use the cargo workspace directory
     let config_location = std::env::var("CONFIG_LOCATION").unwrap_or_else(|_| "not_docker".to_owned());
     println!("[init] config_location: {}", &config_location);
@@ -27,6 +28,7 @@ pub fn init(package_name:&str) {
     let env_file_version = std::env::var("ENV_FILE_VERSION").unwrap_or_else(|_| ".env not loaded".to_string());
     println!("[init] dot_env_path: {}; env_file_version: {}", &dot_env_path, &env_file_version);
 
+    // start tracing
     tracing_subscriber::registry().with(fmt::layer()).with(EnvFilter::from_default_env()).init();
     tracing::debug!("[init] .env file: {}", &dot_env_path);
 
