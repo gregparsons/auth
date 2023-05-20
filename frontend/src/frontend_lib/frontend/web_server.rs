@@ -17,7 +17,7 @@ use crate::frontend::utils::*;
 // use crate::settings::STATIC_FILE_DIR;
 
 // this corresponds to the Dockerfile "COPY static /app/frontend/static"
-static STATIC_FILE_DIR:&'static str = "./frontend/static/templates";
+// static STATIC_FILE_DIR:&'static str = "./frontend/static/templates";
 
 pub struct WebServer{}
 impl WebServer {
@@ -38,6 +38,7 @@ impl WebServer {
     }
 
     async fn web_server(web_port: u16) -> std::io::Result<()> {
+
         tracing::info!("starting HTTP server at http://localhost:8080");
 
         let configuration = get_yaml_configuration().expect("[web_server] no configuration.yaml?");
@@ -48,7 +49,25 @@ impl WebServer {
         // https://github.com/actix/examples/blob/master/templating/handlebars/src/main.rs
         // https://github.com/sunng87/handlebars-rust/tree/master/examples
         let mut handlebars = Handlebars::new();
-        handlebars.register_templates_directory(".html", STATIC_FILE_DIR).unwrap();
+
+        // println!("[init] config_location: {}", env!("CARGO_MANIFEST_DIR"));
+
+
+        let config_location = std::env::var("CONFIG_LOCATION").unwrap_or_else(|_| "not_docker".to_owned());
+        let package_name = env!("CARGO_MANIFEST_DIR");
+        let handlebar_static_path = match config_location.as_str() {
+            "docker" => {
+                "./static/templates".to_string()
+            },
+            "not_docker" | _ =>{
+                // frontend/static/templates
+                format!("./{}/static/templates", &package_name)
+            }
+        };
+
+        tracing::debug!("[web_server] registering handlebars static files to: {}", &handlebar_static_path);
+
+        handlebars.register_templates_directory(".html", handlebar_static_path).unwrap();
         let handlebars_ref = web::Data::new(handlebars);
 
         // srv is server controller type, `dev::Server`
