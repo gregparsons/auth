@@ -8,6 +8,9 @@
 //!     -H "APCA-API-KEY-ID: xxxx" \
 //!     -H "APCA-API-SECRET-KEY: xxxx"\
 //!     https://paper-api.alpaca.markets/v2/account/activities/FILL?date='2023-03-24'
+//!
+//! TODO: move to common lib (or delete this duplicate)
+//!
 
 use std::fmt;
 use bigdecimal::BigDecimal;
