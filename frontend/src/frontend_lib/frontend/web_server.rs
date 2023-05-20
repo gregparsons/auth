@@ -23,7 +23,7 @@ pub struct WebServer{}
 impl WebServer {
 
     pub async fn run() {
-        let settings =get_yaml_configuration().expect("no configuration.yaml");
+        let settings = get_yaml_configuration().expect("no configuration.yaml");
         let address = format!("{}:{}", settings.database.host, settings.database.port);
         tracing::debug!("[run] address from config: {}", &address);
 
@@ -54,6 +54,8 @@ impl WebServer {
 
 
         let config_location = std::env::var("CONFIG_LOCATION").unwrap_or_else(|_| "not_docker".to_owned());
+
+        // or CARGO_PKG_NAME
         let package_name = env!("CARGO_MANIFEST_DIR");
         let handlebar_static_path = match config_location.as_str() {
             "docker" => {
@@ -61,7 +63,8 @@ impl WebServer {
             },
             "not_docker" | _ =>{
                 // frontend/static/templates
-                format!("./{}/static/templates", &package_name)
+                // /Users/xyz/.../trade/frontend/static/templates
+                format!("{}/static/templates", &package_name)
             }
         };
 
