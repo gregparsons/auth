@@ -2,7 +2,5 @@
 members = [
     "common_lib",
     "frontend",
-    "backend",
-    "backend_rest",
-    "monitor",
+
 ]

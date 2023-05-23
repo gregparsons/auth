@@ -44,41 +44,44 @@ pub async fn post_login(form: web::Form<FormData>, hb: web::Data<Handlebars<'_>>
     ).fetch_one(db_pool.as_ref()).await;
     tracing::debug!("[post_login] login_result: {:?}", &login_result);
 
+    match &login_result {
 
-    let login_result_unwrapped = &login_result.unwrap();
+        Ok(login_result_unwrapped) => {
+            let stored_pw_hash = &login_result_unwrapped.password;
+            let correct_pw_hash = PasswordHash::new(stored_pw_hash).expect("couldn't convert password hash stored in database to a proper Argon hash");
 
-    let stored_pw_hash = &login_result_unwrapped.password;
+            let is_verified = Argon2::default().verify_password(
+                form.password.as_bytes(),
+                &correct_pw_hash
+            );
 
-    let correct_pw_hash = PasswordHash::new(stored_pw_hash).expect("couldn't convert password hash stored in database to a proper Argon hash");
+            match is_verified {
+                Ok(_verified) => {
+                    tracing::debug!("[post_login] is_verified: yes!");
+                    let _result = session.insert(SESSION_USER_ID, &login_result_unwrapped.user_id.to_string());
+                    let _result = session.insert(SESSION_USERNAME, &login_result_unwrapped.username);
+                    let message = format!("Welcome, {}, ({})", &login_result_unwrapped.username, &login_result_unwrapped.user_id);
 
-    let is_verified = Argon2::default().verify_password(
-        form.password.as_bytes(),
-        &correct_pw_hash
-    );
-
-    match is_verified {
-        Ok(_verified) => {
-            tracing::debug!("[post_login] is_verified: yes!");
-            let _result = session.insert(SESSION_USER_ID, &login_result_unwrapped.user_id.to_string());
-            let _result = session.insert(SESSION_USERNAME, &login_result_unwrapped.username);
-            let message = format!("Welcome, {}, ({})", &login_result_unwrapped.username, &login_result_unwrapped.user_id);
-
-            let data = json!({
-                "title": "login",
-                "parent": "base0",
-                "is_logged_in": true,
-                "session_username": &login_result_unwrapped.username,
-                "message": &message,
-            });
-            let body = hb.render("login_result", &data).unwrap();
-
-            HttpResponse::Ok().append_header(("Cache-Control", "no-store")).body(body)
-
-
+                    let data = json!({
+                        "title": "login",
+                        "parent": "base0",
+                        "is_logged_in": true,
+                        "session_username": & login_result_unwrapped.username,
+                        "message": & message,
+                    });
+                    let body = hb.render("login_result", &data).unwrap();
+                    HttpResponse::Ok().append_header(("Cache-Control", "no-store")).body(body)
+                },
+                Err(e) => {
+                    tracing::debug!("[post_login] not verified, error: {:?}", & e);
+                    // let message = "Sorry. Login failed.".to_string();
+                    redirect_home().await
+                }
+            }
         },
-        Err(e)=> {
-            tracing::debug!("[post_login] not verified, error: {:?}", &e);
-            // let message = "Sorry. Login failed.".to_string();
+        Err(e)=>{
+            // no result from the database; "username doesn't exist"
+            tracing::debug!("[post_login] login attempt failed: {:?}", &e);
             redirect_home().await
         }
     }

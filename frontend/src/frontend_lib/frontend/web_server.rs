@@ -8,16 +8,7 @@ use actix_session::SessionMiddleware;
 use actix_session::storage::CookieSessionStore;
 use crate::frontend::signup::{get_signup, post_signup};
 use crate::frontend::login::{get_login, get_logout, post_login};
-use crate::frontend::metrics::{get_avg, get_chart};
-use crate::frontend::account::get_account;
-use crate::frontend::activities::get_activities;
-use crate::frontend::profit::get_profit;
-use crate::frontend::symbols::{get_symbols, post_symbols};
 use crate::frontend::utils::*;
-// use crate::settings::STATIC_FILE_DIR;
-
-// this corresponds to the Dockerfile "COPY static /app/frontend/static"
-// static STATIC_FILE_DIR:&'static str = "./frontend/static/templates";
 
 pub struct WebServer{}
 impl WebServer {
@@ -49,9 +40,6 @@ impl WebServer {
         // https://github.com/actix/examples/blob/master/templating/handlebars/src/main.rs
         // https://github.com/sunng87/handlebars-rust/tree/master/examples
         let mut handlebars = Handlebars::new();
-
-        // println!("[init] config_location: {}", env!("CARGO_MANIFEST_DIR"));
-
 
         let config_location = std::env::var("CONFIG_LOCATION").unwrap_or_else(|_| "not_docker".to_owned());
 
@@ -92,18 +80,11 @@ impl WebServer {
                 .route("/signup", web::post().to(post_signup))
                 .route("/login", web::post().to(post_login))
                 .route("/ping", web::get().to(get_ping))
-                .route("/avg", web::get().to(get_avg))
-                .route("/chart", web::get().to(get_chart))
-                .route("/profit", web::get().to(get_profit))
-                .route("/account", web::get().to(get_account))
                 .route("/logout", web::get().to(get_logout))
-                .route("/symbols", web::get().to(get_symbols))
-                .route("/symbols", web::post().to(post_symbols))
-                .route("/activity", web::get().to(get_activities))
 
         }).bind(("0.0.0.0", web_port))?
-            .workers(2)
-            .run();
+        .workers(2)
+        .run();
 
         server.await
     }

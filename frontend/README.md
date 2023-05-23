@@ -1,27 +1,16 @@
-# Alpaca Collector
-A Docker-based websocket and rest API collector of Alpaca stock ticker data. Collects data to a PostgreSQL  
-database. Cross-talking threads store inbound data, analyze it, and take appropriate trade actions on it.
+# frontend
 
 ## Environment Notes  
 Dev environment: forward a local port to the machine where postgres is running; makes it look like postgres is running locally but secured over SSH without exposing the Postgres port. 
 ssh -L 54320:10.1.1.205:54320 swimr205
 
 Prep sqlx for offline build inside docker:
-export DATABASE_URL=postgres://postgres:eJk16bVgFNkJI74s3uY248vwCX7rEkUbGXrZtS8V4PDn8e2HcC@localhost:54320/alpaca
+export DATABASE_URL=postgres://postgres:e7cED6yPdnREyonjVDfBupkqXGjT8Xbnfe4pMote48HCPvAxY4@localhost:54320/auth_template
 cargo sqlx prepare -- --lib
-
-## TODO
-- remove chrono per https://github.com/chronotope/chrono/issues/602 and cargo audit
-- remove ureq for reqwest
-- add (many) tests
-- bug: not resilient to local power/internet outage?
-- load the stock list from external config (not hard-coded)
-- add all the pre-existing db structure to sqlx migrations
 
 ## sqlx
 sqlx migrate add create_user_table  
 sqlx migrate run --database-url postgres://postgres:password@localhost:54320/alpaca  
+sqlx migrate run --database-url postgres://postgres:e7cED6yPdnREyonjVDfBupkqXGjT8Xbnfe4pMote48HCPvAxY4@localhost:54320/auth_template
 
-## postgres
-Generate v4 uuids:
-> CREATE EXTENSION "uuid-ossp";
+=

@@ -1,1 +1,0 @@
-docker build --file dockerfile_backend_rest --tag backend_rest .

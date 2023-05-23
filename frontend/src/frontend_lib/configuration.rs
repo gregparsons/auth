@@ -3,6 +3,8 @@
 //! Ref: Zero 2 Prod page 65
 //!
 //! TODO: move this to a common library
+//!
+//! TODO: remove all this. I hate yaml.
 
 use config::{ConfigError, File, FileFormat};
 
